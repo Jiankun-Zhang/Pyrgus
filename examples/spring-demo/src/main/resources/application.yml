@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+logging:
+  level:
+    cloud.pyrgus.framework.Pyrgus: debug
+    cloud.pyrgus.framework.internal.simple.cqrs.SimpleActionRouter: debug
