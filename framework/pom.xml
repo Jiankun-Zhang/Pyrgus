@@ -16,14 +16,27 @@
     <assertj-core.version>3.22.0</assertj-core.version>
     <slf4j-api.version>1.7.36</slf4j-api.version>
     <slf4j-simple.version>${slf4j-api.version}</slf4j-simple.version>
-
+    <vavr.version>0.10.4</vavr.version>
+    <lombok.version>1.18.22</lombok.version>
+    
   </properties>
 
   <dependencies>
     <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vavr</groupId>
+      <artifactId>vavr</artifactId>
+      <version>${vavr.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
