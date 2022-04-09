@@ -18,7 +18,8 @@
     <slf4j-simple.version>${slf4j-api.version}</slf4j-simple.version>
     <vavr.version>0.10.4</vavr.version>
     <lombok.version>1.18.22</lombok.version>
-    
+
+    <reflections.version>0.10.2</reflections.version>
   </properties>
 
   <dependencies>
@@ -37,6 +38,11 @@
       <groupId>io.vavr</groupId>
       <artifactId>vavr</artifactId>
       <version>${vavr.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>${reflections.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
