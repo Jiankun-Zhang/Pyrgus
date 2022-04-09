@@ -2,6 +2,8 @@
 
 # Pyrgus
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b10df9554bbb41259ae2d409d1469cd1)](https://app.codacy.com/gh/Jiankun-Zhang/Pyrgus?utm_source=github.com&utm_medium=referral&utm_content=Jiankun-Zhang/Pyrgus&utm_campaign=Badge_Grade_Settings)
+
 一个尽可能提供 [CQRS](https://microservices.io/patterns/data/cqrs.html)
 风格的轻量级 [Messaging Patterns](https://www.enterpriseintegrationpatterns.com/patterns/messaging/) 实践框架.
 
