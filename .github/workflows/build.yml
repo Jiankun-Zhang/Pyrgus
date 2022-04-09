@@ -27,13 +27,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Cache SonarCloud packages
-        if: steps.filter.outputs.framework == 'true'
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         if: steps.filter.outputs.framework == 'true'
         uses: actions/cache@v1
@@ -43,7 +36,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
         if: steps.filter.outputs.framework == 'true'
+        run: mvn clean test jacoco:report
+      - name: Update report
+        if: steps.filter.outputs.framework == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Jiankun-Zhang_Pyrgus
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./target/site/jacoco/jacoco.xml
