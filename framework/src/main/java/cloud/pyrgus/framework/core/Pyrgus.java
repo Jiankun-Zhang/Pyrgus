@@ -36,6 +36,7 @@ import java.util.Objects;
 /**
  * pyrgus
  *
+ *
  * @author <a href="mailto:git@krun.dev">Jiankun-Zhang</a>
  * @since 0.1.0
  */
