@@ -1,0 +1,41 @@
+name: Build Framework
+on:
+  push:
+    branches: [ '*' ]
+jobs:
+  build:
+    name: Build Framework
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: framework
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            framework:
+              - 'framework/**'
+      - name: Set up JDK 8
+        if: steps.filter.outputs.framework == 'true'
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+      - name: Cache Maven packages
+        if: steps.filter.outputs.framework == 'true'
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build and analyze
+        if: steps.filter.outputs.framework == 'true'
+        run: mvn clean test jacoco:report
+      - name: Update report
+        if: steps.filter.outputs.framework == 'true'
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./target/site/jacoco/jacoco.xml
