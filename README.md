@@ -1,4 +1,6 @@
 ![license](https://img.shields.io/github/license/Jiankun-Zhang/Pyrgus?style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Jiankun-Zhang/Pyrgus/Build%20Framework?style=for-the-badge)
+![code-quality](https://img.shields.io/codacy/grade/fadb10af34cb413f8f828ca30a84a4bf?style=for-the-badge)
 
 # Pyrgus
 
@@ -29,7 +31,10 @@ TODO
 
 ### Installation
 
-TODO
+```shell
+cd ./framework
+mvn clean install
+```
 
 ### Usage
 
