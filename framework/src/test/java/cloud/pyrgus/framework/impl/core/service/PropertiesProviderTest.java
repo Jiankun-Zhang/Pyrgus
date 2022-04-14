@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package cloud.pyrgus.framework.impl.core.service.contract;
+package cloud.pyrgus.framework.impl.core.service;
 
 import org.junit.jupiter.api.Test;
 

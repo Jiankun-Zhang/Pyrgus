@@ -22,42 +22,25 @@
  * SOFTWARE.
  */
 
-package cloud.pyrgus.framework.core.service.contract;
+package cloud.pyrgus.framework.impl.core.service;
 
-
+import cloud.pyrgus.framework.core.service.PropertyProvider;
 import io.vavr.control.Option;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Supplier;
-
 /**
- * 属性供应者, 向 Pyrgus 应用提供所需的属性.
+ * 以 {@link System#getProperties()} 与 {@link System#getenv()} 作为来源的属性供应者.
  *
  * @author <a href="mailto:git@krun.dev">Jiankun-Zhang</a>
  * @since 2022/4/13
  */
-public interface PropertyProvider {
+public class PropertiesProvider implements PropertyProvider {
 
-    /**
-     * 获取指定的属性的值.
-     *
-     * @param key 属性键.
-     * @return 当键存在时返回属性值, 否则返回 {@code null}.
-     */
-    @Nullable
-    String getProperty(@NotNull String key);
-
-    /**
-     * 获取指定的属性的值.
-     *
-     * @param key          属性键.
-     * @param defaultValue 当键不存在时使用此参数所产生的值作为返回内容.
-     * @return 当键存在时返回属性值, 否则返回 {@literal defaultValue} 所产生的值.
-     */
-    @NotNull
-    default String getProperty(@NotNull String key, @NotNull Supplier<String> defaultValue) {
-        return Option.of(getProperty(key)).getOrElse(defaultValue);
+    @Override
+    public @Nullable String getProperty(@NotNull String key) {
+        return Option.of(System.getProperty(key))
+                .getOrElse(() -> System.getenv(key));
     }
 
 }

@@ -24,8 +24,8 @@
 
 package cloud.pyrgus.framework;
 
+import cloud.pyrgus.framework.core.service.PropertyProvider;
 import cloud.pyrgus.framework.core.service.ServiceRegisterBuilder;
-import cloud.pyrgus.framework.core.service.contract.PropertyProvider;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -24,12 +24,12 @@
 
 package cloud.pyrgus.framework;
 
+import cloud.pyrgus.framework.core.service.PropertyProvider;
 import cloud.pyrgus.framework.core.service.ServiceRegistry;
-import cloud.pyrgus.framework.core.service.contract.PropertyProvider;
 import cloud.pyrgus.framework.exception.PyrgusAlreadyConfiguredException;
 import cloud.pyrgus.framework.exception.PyrgusNotConfiguredException;
+import cloud.pyrgus.framework.impl.core.service.PropertiesProvider;
 import cloud.pyrgus.framework.impl.core.service.ReflectionsServiceRegisterBuilder;
-import cloud.pyrgus.framework.impl.core.service.contract.PropertiesProvider;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 

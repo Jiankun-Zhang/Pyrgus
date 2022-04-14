@@ -26,7 +26,7 @@ package cloud.pyrgus.framework;
 
 import cloud.pyrgus.framework.core.service.Service;
 import cloud.pyrgus.framework.exception.PyrgusAlreadyConfiguredException;
-import cloud.pyrgus.framework.impl.core.service.contract.PropertiesProvider;
+import cloud.pyrgus.framework.impl.core.service.PropertiesProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
