@@ -43,7 +43,7 @@ import org.mockito.ArgumentMatchers;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -90,7 +90,7 @@ class SimpleThreadPoolTaskExecutorTest {
     }
 
     @Test
-    void should_return_task_when_submit_new_task() {
+    void should_return_task_when_submit() {
         Tuple2<Message, MessageConsumer> arguments = prepareArguments();
         Task task = executor.submit(arguments._1, arguments._2, null, Mode.Posting);
         assertThat(task).extracting("message").isEqualTo(arguments._1);
@@ -102,7 +102,8 @@ class SimpleThreadPoolTaskExecutorTest {
 
         task = executor.submit(arguments._1, arguments._2, null, Mode.Background);
         assertThat(task.getFuture())
-                .isCompletedWithValueMatching(threadName -> !Objects.equals(threadName, Thread.currentThread().getName()));
+                .succeedsWithin(1, TimeUnit.SECONDS)
+                .isNotEqualTo(Thread.currentThread().getName());
     }
 
     @Test
