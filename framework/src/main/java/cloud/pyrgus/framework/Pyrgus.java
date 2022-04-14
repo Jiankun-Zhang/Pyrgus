@@ -32,6 +32,8 @@ import cloud.pyrgus.framework.impl.core.service.PropertiesProvider;
 import cloud.pyrgus.framework.impl.core.service.ReflectionsServiceRegisterBuilder;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
+import org.reflections.scanners.Scanners;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Objects;
 
@@ -58,7 +60,11 @@ public class Pyrgus {
     public static Pyrgus configure(Class<?> rootClass) {
         return configure(Configuration.builder()
                 .propertyProvider(new PropertiesProvider())
-                .serviceRegisterBuilder(new ReflectionsServiceRegisterBuilder(rootClass))
+                .serviceRegisterBuilder(new ReflectionsServiceRegisterBuilder(
+                        new ConfigurationBuilder()
+                                .forPackages(rootClass.getPackage().getName(), Pyrgus.class.getPackage().getName())
+                                .setScanners(Scanners.SubTypes)
+                ))
                 .build());
     }
 
