@@ -64,7 +64,9 @@ public class SimpleServiceRegistry implements ServiceRegistry {
 
     public SimpleServiceRegistry(@NotNull Set<Class<? extends Service>> classes) {
         for (Class<? extends Service> type : classes) {
-            if (!Modifier.isPublic(type.getModifiers()) || type.isInterface()) {
+            if (!Modifier.isPublic(type.getModifiers())
+                    || type.isInterface()
+                    || !isSpecifiedByProperties(type)) {
                 continue;
             }
             try {
@@ -97,6 +99,34 @@ public class SimpleServiceRegistry implements ServiceRegistry {
                 log.error("initiate service [ " + type.getName() + " ] failed.", e);
             }
         }
+    }
+
+    private boolean isSpecifiedByProperties(Class<? extends Service> type) {
+        Properties properties = System.getProperties();
+        for (Class<? extends Service> aClass : extract(type)) {
+            String key = aClass.getName();
+            if (properties.containsKey(key)) {
+                return Objects.equals(properties.get(key), type.getName());
+            }
+        }
+        return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Set<Class<? extends Service>> extract(Class<? extends Service> type) {
+        Set<Class<? extends Service>> types = new HashSet<>();
+        while (!Object.class.equals(type)) {
+            if (Service.class.isAssignableFrom(type)) {
+                types.add(type);
+            }
+            for (Class<?> typeInterface : type.getInterfaces()) {
+                if (Service.class.isAssignableFrom(typeInterface)) {
+                    types.add((Class<? extends Service>) typeInterface);
+                }
+            }
+            type = (Class<? extends Service>) type.getSuperclass();
+        }
+        return types;
     }
 
     private void skip(Class<? extends Service> type) {

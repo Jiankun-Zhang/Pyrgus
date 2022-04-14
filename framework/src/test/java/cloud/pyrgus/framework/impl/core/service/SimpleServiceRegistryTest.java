@@ -69,6 +69,15 @@ class SimpleServiceRegistryTest {
         assertThat(registry.loadService(Foo.class)).isInstanceOf(Foo1.class);
     }
 
+    @SneakyThrows
+    @Test
+    void should_load_foo2_when_load_service_foo() {
+        System.setProperty(Foo.class.getName(), Foo2.class.getName());
+        SimpleServiceRegistry registry = new SimpleServiceRegistry(Sets.set(Foo1.class, Foo2.class));
+        assertThat(registry.loadService(Foo.class)).isInstanceOf(Foo2.class);
+        System.getProperties().remove(Foo.class.getName());
+    }
+
     @ParameterizedTest
     @ValueSource(classes = {
             Foo3.class, Foo4.class, Foo5.class
