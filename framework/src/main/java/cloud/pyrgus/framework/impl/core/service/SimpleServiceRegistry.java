@@ -24,6 +24,9 @@
 
 package cloud.pyrgus.framework.impl.core.service;
 
+import cloud.pyrgus.framework.Pyrgus;
+import cloud.pyrgus.framework.core.service.Configurable;
+import cloud.pyrgus.framework.core.service.PropertyProvider;
 import cloud.pyrgus.framework.core.service.Service;
 import cloud.pyrgus.framework.core.service.ServiceRegistry;
 import cloud.pyrgus.framework.core.service.exception.PyrgusServiceException;
@@ -177,7 +180,14 @@ public class SimpleServiceRegistry implements ServiceRegistry {
                     .map(s -> (Class<? extends S>) s.getClass())
                     .collect(Collectors.toList()));
         }
-        return services.get(0);
+        return configureServiceIfNeed(services.get(0));
+    }
+
+    private <S extends Service> S configureServiceIfNeed(S service) {
+        if (service instanceof Configurable) {
+            ((Configurable) service).configure(this, (PropertyProvider) Pyrgus.getInstance());
+        }
+        return service;
     }
 
     /**
@@ -189,6 +199,9 @@ public class SimpleServiceRegistry implements ServiceRegistry {
     @Override
     @SuppressWarnings("unchecked")
     public @NotNull <S extends Service> List<S> loadServices(@NotNull Class<S> serviceType) {
-        return (List<S>) services.getOrDefault(serviceType, Collections.emptyList());
+        return (List<S>) services.getOrDefault(serviceType, Collections.emptyList())
+                .stream()
+                .map(this::configureServiceIfNeed)
+                .collect(Collectors.toList());
     }
 }
